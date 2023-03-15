@@ -1,2 +1,3 @@
 # puzzlegrpcclient
-Common package to create gRPC client
+
+Common package to create [gRPC](https://grpc.io/) client.
