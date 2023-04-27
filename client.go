@@ -18,26 +18,18 @@
 package puzzlegrpcclient
 
 import (
-	"context"
-	"time"
-
 	"google.golang.org/grpc"
 )
 
 type Client struct {
 	serviceAddr string
-	dialOptions grpc.DialOption
-	timeOut     time.Duration
+	dialOptions []grpc.DialOption
 }
 
-func Make(serviceAddr string, dialOptions grpc.DialOption, timeOut time.Duration) Client {
-	return Client{serviceAddr: serviceAddr, dialOptions: dialOptions, timeOut: timeOut}
+func Make(serviceAddr string, dialOptions ...grpc.DialOption) Client {
+	return Client{serviceAddr: serviceAddr, dialOptions: dialOptions}
 }
 
 func (client Client) Dial() (*grpc.ClientConn, error) {
-	return grpc.Dial(client.serviceAddr, client.dialOptions)
-}
-
-func (client Client) InitContext() (context.Context, context.CancelFunc) {
-	return context.WithTimeout(context.Background(), client.timeOut)
+	return grpc.Dial(client.serviceAddr, client.dialOptions...)
 }
